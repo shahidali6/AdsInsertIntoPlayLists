@@ -16,7 +16,6 @@ namespace AdsIntoPlayList
         public Form1()
         {
             InitializeComponent();
-
         }
 
         private void ReadBothPlayListItemsandGeneratePlayListFile(string PlayListFileandPath)
@@ -26,7 +25,7 @@ namespace AdsIntoPlayList
             List<string> currentPlayListForm = new List<string>();
             List<string> refinePlayListForm = new List<string>();
             List<string> processedPlayList = new List<string>();
-            //string PlayListFileandPath = @"C:\Users\Shahid\Desktop\temp\Fiverr\Final 1-1-2021 playlists\SEM Records 2020 Thursday Mania Keep Distance.m3u8";
+
             string file = ReadPlayListFileAndReturnString(PlayListFileandPath);
             currentPlayListFile = StringSplittoListbyNewLine(file);
             refinePlayListFile = RefinePlayListbyCombineTwoLines(currentPlayListFile);
@@ -54,31 +53,6 @@ namespace AdsIntoPlayList
                     }
                 }
                 processedPlayList.Add(refinePlayListFile[i]);
-                //if (i == 0)
-                //{
-                //    for (; i < intervalValue; i++)
-                //    {
-                //        processedPlayList.Add(refinePlayListFile[i]);
-
-                //    }
-                //}
-                //if ((i % intervalValue) == 0)
-                //{
-                //    processedPlayList.Add(refinePlayListFile[i]);
-                //    processedPlayList.Add(refinePlayListForm[currentItrationFormList]);
-                //    if (currentItrationFormList == refinePlayListForm.Count - 1)
-                //    {
-                //        currentItrationFormList = 0;
-                //    }
-                //    else
-                //    {
-                //        currentItrationFormList++;
-                //    }
-                //}
-                //else
-                //{
-                //    processedPlayList.Add(refinePlayListFile[i]);
-                //}
             }
             var result = WritePlayListFileFromList(PlayListFileandPath, processedPlayList);
         }
@@ -122,8 +96,7 @@ namespace AdsIntoPlayList
                 string finalFileName = fileNamewithoutExt + dateTimeNow + extn;
 
                 string finalCombinePathandFile = Path.Combine(fileName.DirectoryName, finalFileName);
-                //using (StreamWriter writer = new StreamWriter(finalCombinePathandFile, append: true))
-                //using (StreamWriter writer = new StreamWriter(finalCombinePathandFile))
+
                 using (StreamWriter writer = new StreamWriter(File.Open(finalCombinePathandFile, FileMode.Create), Encoding.Unicode))
                 {
                     //writer.WriteLine(playListStart);
@@ -209,7 +182,12 @@ namespace AdsIntoPlayList
 
         private void btnAdsintoPlayLists_Click(object sender, EventArgs e)
         {
-            ReadBothPlayListItemsandGeneratePlayListFile(@"C:\Users\Shahid\Desktop\temp\Fiverr\Final 1-1-2021 playlists\SEM Records 2020 Thursday Mania Keep Distance.m3u8");
+            List<string> filesList = new List<string>();
+            filesList = Directory.GetFiles(tbFolderPath.Text, "*.m3u8").ToList();
+            foreach (var item in filesList)
+            {
+                ReadBothPlayListItemsandGeneratePlayListFile(item);
+            }
         }
     }
 }
